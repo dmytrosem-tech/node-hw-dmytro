@@ -3,8 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
 
-const readContent = async () => {
-  console.log(__dirname);
+const contactsPath = async () => {
   const content = await fs.readFile(
     path.join(__dirname, "db", "contacts.json"),
     "utf8"
@@ -14,17 +13,17 @@ const readContent = async () => {
 };
 
 const listContacts = async () => {
-  return await readContent();
+  return await contactsPath();
 };
 
 const getContactById = async (contactId) => {
-  const contacts = await readContent();
+  const contacts = await contactsPath();
   const [contact] = contacts.filter((contact) => contact.id === contactId);
   return contact;
 };
 
 const removeContact = async (contactId) => {
-  const contacts = await readContent();
+  const contacts = await contactsPath();
   const newContacts = contacts.filter((contact) => contact.id !== contactId);
   await fs.writeFile(
     path.join(__dirname, "db", "contacts.json"),
@@ -34,7 +33,7 @@ const removeContact = async (contactId) => {
 };
 
 const addContact = async (name, email, phone) => {
-  const contacts = await readContent();
+  const contacts = await contactsPath();
   const newContact = { name, email, phone, id: uuidv4() };
   contacts.push(newContact);
   await fs.writeFile(
