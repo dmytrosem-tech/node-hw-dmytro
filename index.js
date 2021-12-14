@@ -38,8 +38,14 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 
     case "add":
       const contact = await addContact(name, email, phone);
-      console.log(chalk.green("Add new contact"));
+      if (contact.name && contact.email && contact.phone) {
+        console.log(chalk.green("Add new contact"));
+        console.log(contact);
+        return;
+      }
+      console.log(chalk.red("Error"));
       console.log(contact);
+
       break;
 
     case "remove":
