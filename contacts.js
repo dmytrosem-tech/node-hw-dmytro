@@ -24,7 +24,7 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   const contacts = await contactsPath();
-  if (Object.keys(contacts).includes(String(contactId))) {
+  if (contacts.some((contact) => contact.id === contactId)) {
     const newContacts = contacts.filter((contact) => contact.id !== contactId);
     await fs.writeFile(
       path.join(__dirname, "db", "contacts.json"),
@@ -34,6 +34,17 @@ const removeContact = async (contactId) => {
   }
   return contacts;
 };
+
+// if (Object.keys(contacts).includes(String(contactId))) {
+//   const newContacts = contacts.filter((contact) => contact.id !== contactId);
+//   await fs.writeFile(
+//     path.join(__dirname, "db", "contacts.json"),
+//     JSON.stringify(newContacts, null, 2)
+//   );
+//   return newContacts;
+// }
+// return contacts;
+// };
 
 const addContact = async (name, email, phone) => {
   const contacts = await contactsPath();
